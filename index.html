@@ -10,7 +10,19 @@
     
     <img src="#">
     <script>
-
+        const img = document.querySelector('img');
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=BmA99Osouzl9l47yzYEcPnXS4k1mj6I5&s=duck',
+         {
+            mode: "cors"
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(response){
+            const gifUrl = response.data.images.original.url;
+            img.src = gifUrl;
+        })
+        
     </script>
 </body>
 </html>`
