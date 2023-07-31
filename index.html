@@ -25,6 +25,11 @@
   <body>
     <div class="container">
       <img src="#" />
+      <label>
+        Search for gif:
+        <input type="text" id="search" />
+      </label>
+
       <button id="generateGif">Generate gif</button>
     </div>
     <script>
@@ -44,17 +49,25 @@
         });
       const button = document.getElementById('generateGif');
       button.onclick = () => {
+        const search = document.getElementById('search').value;
         fetch(
-          'https://api.giphy.com/v1/gifs/translate?api_key=BmA99Osouzl9l47yzYEcPnXS4k1mj6I5&s=duck',
+          `https://api.giphy.com/v1/gifs/translate?api_key=BmA99Osouzl9l47yzYEcPnXS4k1mj6I5&s=${search}`,
           {
             mode: 'cors',
           }
         )
           .then((response) => response.json())
           .then(function (response) {
+            if (response.data.length === 0) {
+              throw new Error('No search found');
+            }
             img.src = response.data.images.original.url;
           })
-          .catch((error) => console.log(error));
+          .catch(function (error) {
+            img.src =
+              'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZXJyb3J8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60';
+            console.log(error);
+          });
       };
     </script>
   </body>
